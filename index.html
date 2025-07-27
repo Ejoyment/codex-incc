@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CODEX INC - Learn to Code</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2canvas for certificate download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap'); /* For certificate signature */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900;900&display=swap'); /* New font for headings, added black weight */
+
+        .font-inter {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-great-vibes {
+            font-family: 'Great Vibes', cursive;
+        }
+        .font-montserrat {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%); /* Softer, modern background */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.7; /* Improved line height for readability */
+            color: #374151;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            background-color: #f0f4f8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #6366f1; /* Indigo thumb */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #4f46e5; /* Darker indigo on hover */
+        }
+        .hidden {
+            display: none;
+        }
+
+        /* Enhanced Button Styles */
+        .btn-primary {
+            @apply bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-300;
+            border: none;
+        }
+        .btn-secondary {
+            @apply bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-300;
+        }
+        .btn-success {
+            @apply bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300;
+        }
+        .btn-danger {
+            @apply bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300 transform hover:scale-105;
+        }
+
+        /* Refined Card Styles */
+        .section-card {
+            @apply bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-gray-100; /* Softer shadow, more rounded */
+        }
+
+        /* Enhanced Input Field Styles */
+        .form-input {
+            @apply mt-1 block w-full px-5 py-4 border border-gray-300 rounded-2xl shadow-sm /* Increased padding, more rounded */
+                   text-lg /* Make text bigger */
+                   transition-all duration-300 ease-in-out /* Smoother transitions */
+                   focus:ring-4 focus:ring-indigo-400 focus:border-indigo-500 focus:shadow-lg /* More prominent focus with shadow */
+                   hover:border-indigo-400 hover:shadow-md; /* Subtle hover effect with shadow */
+        }
+
+        .modal-content {
+            animation: slideIn 0.4s ease-out forwards; /* Slightly longer animation */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            border-radius: 1.5rem; /* More rounded corners */
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-80px); /* Starts higher */
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .lesson-card {
+            transition: all 0.3s ease-in-out;
+            border-radius: 1.25rem; /* More rounded */
+            overflow: hidden; /* Ensures shadow is contained */
+        }
+        .lesson-card:hover {
+            transform: translateY(-10px) scale(1.02); /* More pronounced lift */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.08); /* Stronger shadow on hover */
+        }
+        .lesson-card img {
+            border-top-left-radius: 1.25rem;
+            border-top-right-radius: 1.25rem;
+        }
+
+        /* Certificate specific styling */
+        #certificate-container {
+            background: linear-gradient(to right, #00c6ff, #0072ff); /* Blue-green gradient from image */
+            padding: 50px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 11 / 8.5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            color: #2d3748;
+            border-radius: 0.5rem; /* Less rounded corners to match image */
+            border: none; /* No border as per image */
+            border-image: none;
+        }
+        #certificate-container::before {
+            /* Removed watermark */
+            content: none;
+        }
+        #certificate-content {
+            position: relative;
+            z-index: 1;
+            padding: 30px;
+            color: #ffffff; /* All text inside content should be white initially */
+        }
+        #certificate-logo {
+            width: 100px; /* Adjust size to match image */
+            height: auto;
+            margin-bottom: 10px; /* Smaller margin */
+            background-color: white; /* White background for the logo itself */
+            padding: 10px;
+            border-radius: 0.5rem; /* Slightly rounded corners for logo box */
+        }
+        #certificate-company-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem; /* Smaller company name */
+            font-weight: 600; /* Semi-bold */
+            color: #ffffff; /* White text */
+            margin-bottom: 30px; /* More space below company name */
+            text-shadow: none;
+        }
+        #certificate-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem; /* Adjust size */
+            font-weight: 800; /* Extra bold */
+            color: #ffffff; /* White text */
+            margin-bottom: 15px;
+            text-shadow: none;
+        }
+        #certificate-subtitle {
+            font-size: 1.2rem; /* Smaller subtitle */
+            color: #ffffff; /* White text */
+            margin-bottom: 25px;
+            font-weight: 400; /* Normal weight */
+        }
+        #certificate-name-box {
+            border: 2px solid white; /* White border for the name box */
+            padding: 15px 30px; /* Padding for the name box */
+            margin-bottom: 30px; /* More space below name */
+            border-radius: 0.5rem; /* Slightly rounded corners */
+        }
+        #certificate-name {
+            font-size: 3.5rem; /* Adjust size */
+            font-weight: 700; /* Bold */
+            color: #ffffff; /* White text */
+            margin: 0; /* Remove default margins */
+            text-shadow: none;
+        }
+        #certificate-description {
+            font-size: 1.1rem; /* Adjust size */
+            color: #ffffff; /* White text */
+            margin-bottom: 40px; /* More space below description */
+            line-height: 1.5;
+        }
+        #certificate-signature-line-1,
+        #certificate-signature-line-2 {
+            width: 180px; /* Adjust width */
+            border-bottom: 1px solid #ffffff; /* White solid line */
+            margin: 0 auto 5px auto; /* Adjust margin */
+        }
+        #certificate-signer-1-name,
+        #certificate-signer-2-name {
+            font-family: 'Inter', sans-serif; /* Use Inter for names */
+            font-size: 1.1rem; /* Adjust size */
+            font-weight: 600; /* Semi-bold */
+            color: #ffffff; /* White text */
+            margin-top: 5px;
+        }
+        #certificate-signer-1-title,
+        #certificate-signer-2-title {
+            font-size: 0.9rem; /* Adjust size */
+            color: #e0e0e0; /* Lighter white for titles */
+        }
+        #certificate-date {
+            font-size: 1rem; /* Adjust size */
+            color: #e0e0e0; /* Lighter white for date */
+            margin-top: 30px; /* More space above date */
+        }
+        @media (max-width: 768px) {
+            #certificate-container {
+                padding: 20px;
+                aspect-ratio: unset;
+                height: auto;
+                max-width: 95%;
+            }
+            #certificate-logo {
+                width: 80px;
+            }
+            #certificate-company-name {
+                font-size: 1.2rem;
+            }
+            #certificate-title {
+                font-size: 1.8rem;
+            }
+            #certificate-subtitle {
+                font-size: 1rem;
+            }
+            #certificate-name-box {
+                padding: 10px 20px;
+            }
+            #certificate-name {
+                font-size: 2.5rem;
+            }
+            #certificate-description {
+                font-size: 0.9rem;
+            }
+            #certificate-signature-line-1,
+            #certificate-signature-line-2 {
+                width: 120px;
+            }
+            #certificate-signer-1-name,
+            #certificate-signer-2-name {
+                font-size: 0.9rem;
+            }
+            #certificate-signer-1-title,
+            #certificate-signer-2-title {
+                font-size: 0.8rem;
+            }
+            #certificate-date {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Fullscreen Certificate Styling */
+        .fullscreen-certificate-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.95); /* Darker overlay */
+            z-index: 1000; /* Ensure it's on top */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0; /* Remove padding for true fullscreen */
+            overflow: hidden; /* Hide scrollbars */
+        }
+
+        .fullscreen-certificate-modal .modal-content {
+            width: 95vw; /* Almost full width */
+            height: 95vh; /* Almost full height */
+            max-width: 95vw; /* Override max-width */
+            max-height: 95vh; /* Override max-height */
+            padding: 20px; /* Adjust padding for fullscreen */
+            border-radius: 0; /* No rounded corners in fullscreen */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: auto; /* Allow scrolling if content overflows */
+        }
+
+        .fullscreen-certificate-modal #certificate-container {
+            width: 90%; /* Adjust certificate size within fullscreen modal */
+            height: auto;
+            max-width: 100%;
+            aspect-ratio: 11 / 8.5; /* Maintain aspect ratio */
+            margin: auto; /* Center it */
+        }
+        
+        .fullscreen-certificate-modal #close-certificate-modal,
+        .fullscreen-certificate-modal #toggle-fullscreen-button {
+            position: absolute;
+            z-index: 1001; /* Above certificate */
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 50%;
+            padding: 8px 12px;
+            font-size: 1.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .fullscreen-certificate-modal #close-certificate-modal {
+            top: 10px;
+            right: 10px;
+        }
+
+        .fullscreen-certificate-modal #toggle-fullscreen-button {
+            top: 10px;
+            right: 70px; /* Position next to close button */
+        }
+
+        .fullscreen-certificate-modal #close-certificate-modal:hover,
+        .fullscreen-certificate-modal #toggle-fullscreen-button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Hide other buttons in fullscreen */
+        .fullscreen-certificate-modal .modal-content > .flex.justify-center.mt-6.space-x-4 {
+            display: none;
+        }
+    </style>
+</head>
+<body class="font-inter text-gray-800">
+    <!-- Navigation Bar -->
+    <nav class="bg-white p-4 shadow-xl sticky top-0 z-50 border-b-2 border-indigo-100">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <!-- Space for Logo -->
+                <div class="w-10 h-10 mr-3 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                    CI
+                </div>
+                <div class="text-gray-900 text-3xl font-extrabold tracking-tight font-montserrat">CODEX INC</div>
+            </div>
+            <div id="nav-auth-buttons" class="flex space-x-4 md:space-x-6">
+                <!-- Buttons will be dynamically added here -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow container mx-auto p-6 py-10">
+        <!-- Auth Section (Login/Signup) -->
+        <section id="auth-section" class="section-card max-w-md mx-auto my-16 hidden">
+            <h2 id="auth-title" class="text-4xl font-extrabold text-gray-900 text-center mb-8 font-montserrat">Login</h2>
+            <form id="auth-form" class="space-y-6">
+                <!-- New Full Name Field - Hidden for login, shown for signup -->
+                <div id="fullNameField" class="hidden">
+                    <label for="fullName" class="block text-lg font-medium text-gray-700 mb-2">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" class="form-input" placeholder="John Doe">
+                </div>
+                <div>
+                    <label for="email" class="block text-lg font-medium text-gray-700 mb-2">Email</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="your@example.com" required>
+                </div>
+                <div>
+                    <label for="password" class="block text-lg font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" id="password" name="password" class="form-input" placeholder="********" required>
+                </div>
+                <button type="submit" id="auth-button" class="btn-primary w-full">
+                    Login
+                </button>
+            </form>
+            <p id="toggle-auth-mode" class="text-center mt-6 text-gray-600 cursor-pointer hover:text-indigo-600 transition-colors duration-200">Don't have an account? <span class="font-semibold text-indigo-500 hover:text-indigo-700">Sign Up</span></p>
+            <div id="authMessageBox" class="mt-6 p-4 rounded-md text-center hidden"></div>
+        </section>
+
+        <!-- Dashboard Section (Logged In) -->
+        <section id="dashboard-section" class="hidden">
+            <div class="section-card mb-10">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4 font-montserrat">Welcome, <span id="user-name" class="text-indigo-600"></span>!</h2>
+                <p class="text-lg text-gray-600 mb-4">Your User ID: <span id="user-id" class="font-mono text-sm bg-gray-100 p-2 rounded-lg text-gray-700 select-all"></span></p>
+                <div class="bg-gradient-to-r from-indigo-100 to-purple-100 p-6 rounded-xl shadow-inner flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+                    <p class="text-xl text-indigo-800 font-semibold">Lessons Completed:</p>
+                    <span id="completed-lessons-count" class="text-6xl font-extrabold text-indigo-900 drop-shadow-md">0</span>
+                </div>
+                
+                <!-- New: Navigation buttons for Profile, Game, AI Chat -->
+                <div class="flex flex-wrap justify-center gap-4 mt-8">
+                    <button id="nav-profile-btn" class="btn-secondary text-sm py-2 px-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 inline-block mr-1"><path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.623 18.623 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" /></svg>
+                        Edit Profile
+                    </button>
+                    <button id="nav-game-btn" class="btn-secondary text-sm py-2 px-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 inline-block mr-1"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.061l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.689z" /><path d="M12.75 5.659v7.932c0 .406.161.793.454 1.071l3.527 3.527a.75.75 0 101.06-1.06l-3.526-3.527a1.5 1.5 0 01-.44-1.07V5.659a.75.75 0 011.5 0v7.932c0 .195.078.381.22.523l2.5 2.5a.75.75 0 001.06-1.06l-2.5-2.5a.75.75 0 01-.22-.523V5.659a.75.75 0 011.5 0V12a.75.75 0 001.5 0V5.659a.75.75 0 01.97-1.025 2.25 2.25 0 012.08 2.37V17.25a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 17.25V6.75a2.25 2.25 0 012.25-2.25h9a.75.75 0 01.75.75z" /></svg>
+                        Play Code Game
+                    </button>
+                    <button id="nav-ai-chat-btn" class="btn-secondary text-sm py-2 px-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 inline-block mr-1"><path fill-rule="evenodd" d="M1.5 5.25A2.25 2.25 0 013.75 3h16.5a2.25 2.25 0 012.25 2.25v13.5A2.25 2.25 0 0120.25 21H3.75A2.25 2.25 0 011.5 18.75V5.25zM15.75 10.5a.75.75 0 01.75-.75h.75a.75.75 0 01.75.75v.75a.75.75 0 01-.75.75h-.75a.75.75 0 01-.75-.75v-.75zm4.5 0a.75.75 0 01.75-.75h.75a.75.75 0 01.75.75v.75a.75.75 0 01-.75.75h-.75a.75.75 0 01-.75-.75v-.75zM3.75 15.75a.75.75 0 01.75-.75h.75a.75.75 0 01.75.75v.75a.75.75 0 01-.75.75H4.5a.75.75 0 01-.75-.75v-.75z" clip-rule="evenodd" /></svg>
+                        AI Customer Service
+                    </button>
+                </div>
+            </div>
+
+            <h3 class="text-3xl font-extrabold text-gray-900 mb-8 mt-12 font-montserrat">Available Lessons</h3>
+            <div id="lessons-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Lessons will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Profile Section (NEW) -->
+        <section id="profile-section" class="section-card max-w-xl mx-auto my-16 hidden">
+            <h2 class="text-4xl font-extrabold text-gray-900 text-center mb-8 font-montserrat">Your Profile</h2>
+            <form id="profile-form" class="space-y-6">
+                <div>
+                    <label for="profileFullName" class="block text-lg font-medium text-gray-700 mb-2">Full Name</label>
+                    <input type="text" id="profileFullName" name="profileFullName" class="form-input" placeholder="Your Full Name" required>
+                </div>
+                <div>
+                    <label for="profileEmail" class="block text-lg font-medium text-gray-700 mb-2">Email (Read-only)</label>
+                    <input type="email" id="profileEmail" name="profileEmail" class="form-input bg-gray-100 cursor-not-allowed" readonly>
+                </div>
+                <button type="submit" id="update-profile-btn" class="btn-primary w-full">
+                    Save Profile
+                </button>
+            </form>
+            <div id="profileMessageBox" class="mt-6 p-4 rounded-md text-center hidden"></div>
+            <button id="back-to-dashboard-from-profile" class="btn-secondary w-full mt-4">Back to Dashboard</button>
+        </section>
+
+        <!-- Game Section (NEW) -->
+        <section id="game-section" class="section-card max-w-3xl mx-auto my-16 hidden">
+            <h2 class="text-4xl font-extrabold text-gray-900 text-center mb-8 font-montserrat">Code Typing Game</h2>
+            <div class="bg-gray-800 p-6 rounded-lg shadow-inner mb-6">
+                <p class="text-gray-300 text-lg mb-4">Type the following code snippet:</p>
+                <pre class="bg-gray-900 p-4 rounded-md overflow-x-auto text-white text-base leading-relaxed"><code id="game-snippet" class="font-mono">Loading code snippet...</code></pre>
+            </div>
+            <textarea id="game-typing-area" class="form-input bg-gray-700 text-white placeholder-gray-400 font-mono text-base h-40 resize-y" placeholder="Start typing here..." rows="5"></textarea>
+            <div class="mt-4 flex justify-between items-center text-lg font-semibold">
+                <span id="game-accuracy" class="text-indigo-400">Accuracy: 0%</span>
+                <span id="game-wpm" class="text-purple-400">WPM: 0</span>
+            </div>
+            <div id="gameMessageBox" class="mt-6 p-4 rounded-md text-center hidden"></div>
+            <div class="flex justify-center space-x-4 mt-6">
+                <button id="new-snippet-btn" class="btn-primary">New Snippet</button>
+                <button id="back-to-dashboard-from-game" class="btn-secondary">Back to Dashboard</button>
+            </div>
+        </section>
+
+        <!-- AI Chat Section (NEW) -->
+        <section id="ai-chat-section" class="section-card max-w-2xl mx-auto my-16 hidden flex flex-col h-[80vh]">
+            <h2 class="text-4xl font-extrabold text-gray-900 text-center mb-8 font-montserrat">AI Customer Service</h2>
+            <div id="chat-messages" class="flex-grow overflow-y-auto p-4 bg-gray-100 rounded-lg shadow-inner mb-6 space-y-4">
+                <!-- Chat messages will appear here -->
+                <div class="flex justify-start">
+                    <div class="bg-indigo-100 text-indigo-800 p-3 rounded-lg max-w-[80%] shadow">
+                        Welcome! How can I help you with your coding journey today?
+                    </div>
+                </div>
+            </div>
+            <div id="ai-typing-indicator" class="text-gray-500 text-sm mb-2 hidden">AI is typing...</div>
+            <div class="flex space-x-3">
+                <input type="text" id="chat-input" class="form-input flex-grow" placeholder="Ask me anything about coding...">
+                <button id="send-chat-btn" class="btn-primary px-6 py-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" /></svg>
+                </button>
+            </div>
+            <div id="chatMessageBox" class="mt-4 p-4 rounded-md text-center hidden"></div>
+            <button id="back-to-dashboard-from-ai-chat" class="btn-secondary w-full mt-4">Back to Dashboard</button>
+        </section>
+
+        <!-- Lesson Detail Modal (Existing) -->
+        <div id="lesson-detail-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto relative modal-content">
+                <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold transition-colors duration-200">&times;</button>
+                <h3 id="modal-lesson-title" class="text-4xl font-extrabold text-gray-900 mb-4 pb-2 border-b border-gray-200 font-montserrat"></h3>
+                <p id="modal-lesson-description" class="text-gray-700 leading-relaxed mb-6"></p>
+                
+                <!-- Updated Video Container: Now uses a thumbnail and a link -->
+                <div id="modal-video-container" class="relative w-full mb-6 bg-gray-900 rounded-lg shadow-md overflow-hidden flex items-center justify-center" style="padding-bottom: 56.25%; height: 0;">
+                    <img id="modal-video-thumbnail" src="" alt="Video Thumbnail" class="absolute top-0 left-0 w-full h-full object-cover cursor-pointer" style="display: none;">
+                    <a id="modal-video-link" href="#" target="_blank" class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 hover:bg-opacity-75 transition-opacity duration-200 text-white text-xl font-bold rounded-lg" style="display: none;">
+                        <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                        <span class="ml-2">Watch Video</span>
+                    </a>
+                    <p id="video-not-available" class="text-gray-400 text-center p-4" style="display: none;">Video not available or invalid URL.</p>
+                </div>
+                
+                <div id="modal-code-snippet-container" class="bg-gray-800 p-4 rounded-lg font-mono text-sm text-gray-200 overflow-x-auto mb-6 shadow-inner">
+                    <pre><code id="modal-code-snippet"></code></pre>
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    <button id="start-quiz-button" class="btn-secondary">
+                        Start Quiz
+                    </button>
+                    <button id="view-certificate-button" class="btn-success">
+                        View Certificate
+                    </button>
+                    <button id="mark-complete-button" class="btn-success">
+                        Mark as Complete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Modal (Existing) -->
+        <div id="quiz-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto relative modal-content">
+                <button id="close-quiz-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold transition-colors duration-200">&times;</button>
+                <h3 class="text-4xl font-extrabold text-gray-900 mb-6 pb-2 border-b border-gray-200 font-montserrat">Quiz: <span id="quiz-lesson-title"></span></h3>
+                <div id="quiz-questions-container" class="space-y-6">
+                    <!-- Quiz questions will be loaded here -->
+                    <p class="text-center text-gray-500" id="quiz-loading-message">Generating quiz questions...</p>
+                </div>
+                <div id="quizMessageBox" class="mt-6 p-4 rounded-md text-center hidden"></div>
+                <div class="flex justify-end mt-8">
+                    <button id="submit-quiz-button" class="btn-primary">
+                        Submit Quiz
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate Modal (Existing) -->
+        <div id="certificate-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-4xl w-full max-h-[95vh] overflow-y-auto relative modal-content flex flex-col items-center">
+                <button id="close-certificate-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold transition-colors duration-200">&times;</button>
+                <button id="toggle-fullscreen-button" class="absolute top-4 right-16 text-gray-500 hover:text-gray-800 text-2xl font-bold transition-colors duration-200" title="Toggle Fullscreen">
+                    &#x26F6; <!-- Unicode for fullscreen symbol -->
+                </button>
+                
+                <div id="certificate-container" class="w-full">
+                    <div id="certificate-content">
+                        <img id="certificate-logo" src="https://placehold.co/100x100/000000/ffffff?text=CX+LOGO" alt="CODEX INC Logo" class="mx-auto mb-4">
+                        <h1 id="certificate-company-name" class="text-3xl font-extrabold text-gray-900 mb-2 font-montserrat">CODEX INC</h1>
+                        <p id="certificate-title" class="text-4xl font-extrabold uppercase mb-4 font-montserrat">CERTIFICATE OF COMPETENCE</p>
+                        <p id="certificate-subtitle" class="text-xl text-gray-700 mb-8">This certificate is presented to</p>
+                        <div id="certificate-name-box" class="border-2 border-white p-4 mx-auto max-w-lg mb-8">
+                            <p id="certificate-name" class="font-bold text-white text-5xl uppercase"></p>
+                        </div>
+                        <p id="certificate-description" class="text-lg text-gray-700 leading-relaxed mb-12 max-w-2xl mx-auto"></p>
+
+                        <div class="flex justify-around w-full max-w-xl mx-auto">
+                            <div class="text-center">
+                                <div id="certificate-signature-line-1" class="w-48 border-b-2 border-gray-700 mx-auto mb-2"></div>
+                                <p id="certificate-signer-1-name" class="font-bold text-gray-900 text-lg">EJOYMENE PETER</p>
+                                <p id="certificate-signer-1-title" class="text-gray-700 text-sm">Supervisor</p>
+                            </div>
+                            <div class="text-center">
+                                <div id="certificate-signature-line-2" class="w-48 border-b-2 border-gray-700 mx-auto mb-2"></div>
+                                <p id="certificate-signer-2-name" class="font-bold text-gray-900 text-lg">EJOYMENE DAVID</p>
+                                <p id="certificate-signer-2-title" class="text-gray-700 text-sm">CEO</p>
+                            </div>
+                        </div>
+                        <p id="certificate-date" class="text-gray-700 mt-8"></p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center mt-6 space-x-4">
+                    <button id="download-certificate-button" class="btn-success">
+                        Download Certificate
+                    </button>
+                    <button id="close-certificate-and-return-button" class="btn-secondary">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 text-center mt-auto">
+        <div class="container mx-auto">
+            <p>&copy; 2025 CODEX INC. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, getDoc, setDoc, onSnapshot, increment, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // IMPORTANT: PASTE YOUR FIREBASE CONFIGURATION HERE
+        // Replace everything within the curly braces {} below with the exact config you copied from Firebase Console.
+        const firebaseConfig = {
+  apiKey: "AIzaSyByPNeh0U6WHPtHDM7AmyMuAQkDhOkmIr8",
+  authDomain: "codexlocalwebsite.firebaseapp.com",
+  projectId: "codexlocalwebsite",
+  storageBucket: "codexlocalwebsite.firebasestorage.app",
+  messagingSenderId: "662986994226",
+  appId: "1:662986994226:web:b18e38373f206152aac22b",
+  measurementId: "G-L3Y4T3W4ZD"
+};
+
+
+        // Use your project ID as appId for consistency in Firestore paths
+        const appId = firebaseConfig.projectId; 
+        console.log("User Site - [INIT] Using Firebase Project ID (appId):", appId); // Log appId for debugging
+        
+        // Initialize Firebase
+        let app;
+        let db;
+        let auth;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            console.log("User Site - [INIT] Firebase app initialized successfully:", app.name);
+        } catch (initError) {
+            console.error("User Site - [INIT ERROR] Failed to initialize Firebase app:", initError);
+            document.getElementById('authMessageBox').classList.remove('hidden');
+            document.getElementById('authMessageBox').textContent = `Error initializing Firebase: ${initError.message}. Check your firebaseConfig.`;
+            document.getElementById('authMessageBox').classList.add('bg-red-100', 'text-red-700');
+        }
+
+
+        // UI Elements
+        const navAuthButtons = document.getElementById('nav-auth-buttons');
+        const authSection = document.getElementById('auth-section');
+        const authTitle = document.getElementById('auth-title');
+        const authForm = document.getElementById('auth-form');
+        const fullNameField = document.getElementById('fullNameField'); // New: Full Name field container
+        const fullNameInput = document.getElementById('fullName'); // New: Full Name input
+        const authButton = document.getElementById('auth-button');
+        const toggleAuthMode = document.getElementById('toggle-auth-mode');
+        const authMessageBox = document.getElementById('authMessageBox');
+        const dashboardSection = document.getElementById('dashboard-section');
+        const userNameSpan = document.getElementById('user-name'); // Changed from user-email
+        const userIdSpan = document.getElementById('user-id');
+        const completedLessonsCountSpan = document.getElementById('completed-lessons-count');
+        const lessonsList = document.getElementById('lessons-list');
+
+        // Dashboard Navigation Buttons
+        const navProfileBtn = document.getElementById('nav-profile-btn');
+        const navGameBtn = document.getElementById('nav-game-btn');
+        const navAiChatBtn = document.getElementById('nav-ai-chat-btn');
+
+        // Lesson Detail Modal
+        const lessonDetailModal = document.getElementById('lesson-detail-modal');
+        const closeModalButton = document.getElementById('close-modal');
+        const modalLessonTitle = document.getElementById('modal-lesson-title');
+        const modalLessonDescription = document.getElementById('modal-lesson-description');
+        const modalVideoContainer = document.getElementById('modal-video-container');
+        const modalVideoThumbnail = document.getElementById('modal-video-thumbnail');
+        const modalVideoLink = document.getElementById('modal-video-link');
+        const videoNotAvailable = document.getElementById('video-not-available');
+        const modalCodeSnippetContainer = document.getElementById('modal-code-snippet-container');
+        const modalCodeSnippet = document.getElementById('modal-code-snippet');
+        const markCompleteButton = document.getElementById('mark-complete-button');
+        const startQuizButton = document.getElementById('start-quiz-button');
+        const viewCertificateButton = document.getElementById('view-certificate-button');
+
+        // Quiz Modal Elements
+        const quizModal = document.getElementById('quiz-modal');
+        const closeQuizModalButton = document.getElementById('close-quiz-modal');
+        const quizLessonTitleSpan = document.getElementById('quiz-lesson-title');
+        const quizQuestionsContainer = document.getElementById('quiz-questions-container');
+        const quizLoadingMessage = document.getElementById('quiz-loading-message');
+        const quizMessageBox = document.getElementById('quizMessageBox');
+        const submitQuizButton = document.getElementById('submit-quiz-button');
+
+        // Certificate Modal Elements
+        const certificateModal = document.getElementById('certificate-modal');
+        const closeCertificateModalButton = document.getElementById('close-certificate-modal');
+        const toggleFullscreenButton = document.getElementById('toggle-fullscreen-button'); // New
+        const certificateContainer = document.getElementById('certificate-container');
+        const certificateLogo = document.getElementById('certificate-logo'); // New: Logo element
+        const certificateCompanyName = document.getElementById('certificate-company-name'); // New: Company Name element
+        const certificateTitle = document.getElementById('certificate-title'); // Main title
+        const certificateSubtitle = document.getElementById('certificate-subtitle'); // Subtitle
+        const certificateNameBox = document.getElementById('certificate-name-box'); // Name box
+        const certificateName = document.getElementById('certificate-name');
+        const certificateDescription = document.getElementById('certificate-description'); // New: Description element
+        const certificateSigner1Name = document.getElementById('certificate-signer-1-name'); // New: Signer 1 Name
+        const certificateSigner1Title = document.getElementById('certificate-signer-1-title'); // New: Signer 1 Title
+        const certificateSigner2Name = document.getElementById('certificate-signer-2-name'); // New: Signer 2 Name
+        const certificateSigner2Title = document.getElementById('certificate-signer-2-title'); // New: Signer 2 Title
+        const certificateDate = document.getElementById('certificate-date');
+        const downloadCertificateButton = document.getElementById('download-certificate-button');
+        const closeCertificateAndReturnButton = document.getElementById('close-certificate-and-return-button');
+
+        // Profile Section Elements
+        const profileSection = document.getElementById('profile-section');
+        const profileForm = document.getElementById('profile-form');
+        const profileFullNameInput = document.getElementById('profileFullName');
+        const profileEmailInput = document.getElementById('profileEmail');
+        const updateProfileBtn = document.getElementById('update-profile-btn');
+        const profileMessageBox = document.getElementById('profileMessageBox');
+        const backToDashboardFromProfileBtn = document.getElementById('back-to-dashboard-from-profile');
+
+        // Game Section Elements
+        const gameSection = document.getElementById('game-section');
+        const gameSnippetDisplay = document.getElementById('game-snippet');
+        const gameTypingArea = document.getElementById('game-typing-area');
+        const gameAccuracySpan = document.getElementById('game-accuracy');
+        const gameWpmSpan = document.getElementById('game-wpm');
+        const gameMessageBox = document.getElementById('gameMessageBox');
+        const newSnippetBtn = document.getElementById('new-snippet-btn');
+        const backToDashboardFromGameBtn = document.getElementById('back-to-dashboard-from-game');
+        
+        // AI Chat Section Elements
+        const aiChatSection = document.getElementById('ai-chat-section');
+        const chatMessagesContainer = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const sendChatBtn = document.getElementById('send-chat-btn');
+        const aiTypingIndicator = document.getElementById('ai-typing-indicator');
+        const chatMessageBox = document.getElementById('chatMessageBox');
+        const backToDashboardFromAiChatBtn = document.getElementById('back-to-dashboard-from-ai-chat');
+
+
+        let isLoginMode = true; 
+        let currentUserId = null; 
+        let currentUserName = null; // Stores current user's full name
+        let currentLessonId = null; 
+        let currentLessonTitle = null; 
+        let currentLessonDescription = null; 
+        let currentQuizQuestions = []; // Stores the generated quiz questions and answers
+
+        // Game State Variables
+        let allCodeSnippets = [];
+        let currentCodeSnippet = '';
+        let gameStartTime = null;
+        let gameIsOver = false;
+
+        // AI Chat History
+        let chatHistory = []; // Stores messages for Gemini API context
+
+        // Function to display messages in a dedicated box
+        function showMessage(box, message, type = 'info') {
+            box.textContent = message;
+            box.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-blue-100', 'text-blue-700');
+            if (type === 'error') {
+                box.classList.add('bg-red-100', 'text-red-700');
+            } else if (type === 'success') {
+                box.classList.add('bg-green-100', 'text-green-700');
+            } else {
+                box.classList.add('bg-blue-100', 'text-blue-700');
+            }
+        }
+
+        // Function to show a specific section and hide others
+        function showSection(sectionIdToShow) {
+            const sections = [authSection, dashboardSection, profileSection, gameSection, aiChatSection, lessonDetailModal, quizModal, certificateModal];
+            sections.forEach(section => {
+                if (section.id !== sectionIdToShow) {
+                    section.classList.add('hidden');
+                }
+            });
+            document.getElementById(sectionIdToShow).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
+            console.log(`User: Navigated to section: ${sectionIdToShow}`);
+        }
+
+        // Toggle Login/Signup Mode
+        toggleAuthMode.addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+            if (isLoginMode) {
+                authTitle.textContent = 'Login';
+                authButton.textContent = 'Login';
+                toggleAuthMode.innerHTML = `Don't have an account? <span class="font-semibold text-indigo-500 hover:text-indigo-700">Sign Up</span>`;
+                fullNameField.classList.add('hidden'); // Hide full name for login
+                fullNameInput.removeAttribute('required'); // Remove required for login
+            } else {
+                authTitle.textContent = 'Sign Up';
+                authButton.textContent = 'Sign Up';
+                toggleAuthMode.innerHTML = `Already have an account? <span class="font-semibold text-indigo-500 hover:text-indigo-700">Login</span>`;
+                fullNameField.classList.remove('hidden'); // Show full name for signup
+                fullNameInput.setAttribute('required', 'required'); // Add required for signup
+            }
+            authMessageBox.classList.add('hidden'); // Clear previous messages
+            authForm.reset(); // Clear form fields
+        });
+
+        // Handle Auth Form Submission
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = authForm.email.value;
+            const password = authForm.password.value;
+            const fullName = fullNameInput.value; 
+
+            authMessageBox.classList.add('hidden'); 
+
+            if (!auth || !db) {
+                showMessage(authMessageBox, "Firebase services not ready. Cannot process form.", 'error');
+                console.error("User: Auth or DB object not initialized. Cannot process form.");
+                return;
+            }
+
+            try {
+                if (isLoginMode) {
+                    console.log("User: [AUTH] Attempting to sign in with email/password.");
+                    await signInWithEmailAndPassword(auth, email, password);
+                    showMessage(authMessageBox, 'Logged in successfully!', 'success');
+                } else {
+                    console.log("User: [AUTH] Attempting to create user with email/password.");
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    
+                    // Store full name and increment user count on signup
+                    const userDocRef = doc(db, `artifacts/${appId}/users/${userCredential.user.uid}`);
+                    await setDoc(userDocRef, {
+                        fullName: fullName, 
+                        completedLessons: {} 
+                    }, { merge: true });
+
+                    const userCountsRef = doc(db, `artifacts/${appId}/public/data/appMetadata/userCounts`);
+                    await setDoc(userCountsRef, {
+                        totalUsers: increment(1)
+                    }, { merge: true });
+                    console.log("User: [FIRESTORE] User count incremented and full name saved on signup.");
+
+                    showMessage(authMessageBox, 'Account created successfully! Please login.', 'success');
+                    isLoginMode = true; 
+                    authTitle.textContent = 'Login';
+                    authButton.textContent = 'Login';
+                    toggleAuthMode.innerHTML = `Already have an account? <span class="font-semibold text-indigo-500 hover:text-indigo-700">Login</span>`;
+                    fullNameField.classList.add('hidden'); // Hide full name for login
+                    fullNameInput.removeAttribute('required'); // Remove required for login
+                    authForm.reset(); 
+                }
+            } catch (error) {
+                console.error("User: [AUTH ERROR] Authentication failed:", error);
+                showMessage(authMessageBox, `Authentication failed: ${error.message}`, 'error');
+            }
+        });
+
+        // Firebase Auth State Observer
+        if (auth) { 
+            onAuthStateChanged(auth, async (user) => {
+                console.log("User: [AUTH STATE] Auth state changed. Current user:", user ? user.uid : "null");
+                
+                if (user && user.email) { 
+                    currentUserId = user.uid;
+                    
+                    // Fetch user's full name
+                    const userDocRef = doc(db, `artifacts/${appId}/users/${currentUserId}`);
+                    try {
+                        const userDocSnap = await getDoc(userDocRef);
+                        if (userDocSnap.exists() && userDocSnap.data().fullName) {
+                            currentUserName = userDocSnap.data().fullName;
+                            console.log("User: Full name fetched:", currentUserName);
+                        } else {
+                            currentUserName = user.email; // Fallback to email if name not found
+                            console.warn("User: Full name not found, using email as fallback.");
+                        }
+                    } catch (error) {
+                        console.error("User: [FIRESTORE ERROR] Error fetching user's full name:", error);
+                        currentUserName = user.email; // Fallback on error too
+                    }
+
+                    userNameSpan.textContent = currentUserName; // Update dashboard welcome message
+                    userIdSpan.textContent = user.uid;
+                    
+                    showSection('dashboard-section'); // Show dashboard
+                    renderNavButtons(true); // Show logout button
+                    console.log("User: [AUTH STATE] Email user logged in. Displaying dashboard.");
+
+                    // Listen for user's completed lessons
+                    onSnapshot(userDocRef, (docSnap) => {
+                        if (docSnap.exists()) {
+                            const userData = docSnap.data();
+                            const completed = userData.completedLessons ? Object.keys(userData.completedLessons).length : 0;
+                            completedLessonsCountSpan.textContent = completed;
+                            console.log("User: [FIRESTORE] Completed lessons count updated:", completed);
+                        } else {
+                            completedLessonsCountSpan.textContent = 0;
+                            console.log("User: [FIRESTORE] No user progress document found, setting completed lessons to 0.");
+                        }
+                    }, (error) => {
+                        console.error("User: [FIRESTORE ERROR] Error listening to user doc:", error);
+                        // showMessage(authMessageBox, `Error loading your progress: ${error.message}`, 'error'); // Use a more appropriate message box if available
+                    });
+
+                    // Load lessons
+                    loadLessons();
+                } else { 
+                    console.log("User: [AUTH STATE] No email user logged in. Showing login form.");
+                    currentUserId = null;
+                    currentUserName = null;
+                    showSection('auth-section'); // Show the login/signup form
+                    renderNavButtons(false); // Show login/signup buttons
+                    fullNameField.classList.remove('hidden'); // Ensure full name field is visible for signup option
+                    fullNameInput.setAttribute('required', 'required');
+                    authForm.reset(); // Clear form fields
+                }
+            }, (error) => {
+                console.error("User: [AUTH STATE ERROR] Error observing auth state:", error);
+                showMessage(authMessageBox, `Authentication observer error: ${error.message}`, 'error');
+            });
+        } else {
+            console.error("User: Auth object is null, cannot attach auth state listener.");
+            showSection('auth-section');
+            renderNavButtons(false);
+        }
+
+        // Render Navigation Buttons based on Auth State
+        function renderNavButtons(loggedIn) {
+            navAuthButtons.innerHTML = ''; 
+            if (loggedIn) {
+                const logoutButton = document.createElement('button');
+                logoutButton.className = 'btn-danger';
+                logoutButton.textContent = 'Logout';
+                logoutButton.onclick = async () => {
+                    await signOut(auth);
+                    showMessage(authMessageBox, 'Logged out successfully!', 'success');
+                    console.log("User: Logged out.");
+                };
+                navAuthButtons.appendChild(logoutButton);
+            } else {
+                const loginButton = document.createElement('button');
+                loginButton.className = 'btn-primary';
+                loginButton.textContent = 'Login / Sign Up';
+                loginButton.onclick = () => {
+                    isLoginMode = true;
+                    authTitle.textContent = 'Login';
+                    authButton.textContent = 'Login';
+                    toggleAuthMode.innerHTML = `Don't have an account? <span class="font-semibold text-indigo-500 hover:text-indigo-700">Sign Up</span>`;
+                    showSection('auth-section'); 
+                    fullNameField.classList.add('hidden'); // Hide full name for login
+                    fullNameInput.removeAttribute('required'); // Remove required for login
+                    authForm.reset(); // Clear form fields
+                    console.log("User: Navigating to login/signup form.");
+                };
+                navAuthButtons.appendChild(loginButton);
+            }
+        }
+
+        // Load Lessons from Firestore
+        async function loadLessons() {
+            if (!db) {
+                console.error("User: Firestore DB object not initialized. Cannot load lessons.");
+                lessonsList.innerHTML = '<p class="text-center col-span-full text-red-500">Error: Firebase Firestore not ready.</p>';
+                return;
+            }
+            lessonsList.innerHTML = '<p class="text-center col-span-full text-gray-500">Loading lessons...</p>';
+            const lessonsCollectionRef = collection(db, `artifacts/${appId}/public/data/lessons`);
+            console.log("User: [FIRESTORE] Listening for lessons at path:", `artifacts/${appId}/public/data/lessons`);
+            onSnapshot(lessonsCollectionRef, async (snapshot) => {
+                lessonsList.innerHTML = ''; 
+                if (snapshot.empty) {
+                    lessonsList.innerHTML = '<p class="text-center col-span-full text-gray-500">No lessons available yet.</p>';
+                    console.log("User: [FIRESTORE] No lessons found in Firestore.");
+                    return;
+                }
+
+                let completedLessons = {};
+                if (currentUserId) {
+                    const userDocRef = doc(db, `artifacts/${appId}/users/${currentUserId}`);
+                    try {
+                        const userDocSnap = await getDoc(userDocRef);
+                        completedLessons = userDocSnap.exists() && userDocSnap.data().completedLessons ? userDocSnap.data().completedLessons : {};
+                    } catch (error) {
+                        console.error("User: [FIRESTORE ERROR] Error fetching user progress:", error);
+                        // showMessage(authMessageBox, `Error loading your progress: ${error.message}`, 'error'); // Use a more appropriate message box if available
+                    }
+                } else {
+                    console.log("User: [FIRESTORE] No currentUserId, cannot load user-specific progress.");
+                }
+
+                snapshot.forEach(doc => {
+                    const lesson = doc.data();
+                    const lessonId = doc.id;
+                    const isCompleted = completedLessons[lessonId] && completedLessons[lessonId].completed === true;
+                    const quizPassed = completedLessons[lessonId] && completedLessons[lessonId].quizPassed === true;
+
+                    const lessonCard = document.createElement('div');
+                    lessonCard.className = `bg-white p-6 rounded-xl shadow-xl border ${isCompleted ? 'border-green-400' : 'border-gray-100'} hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col lesson-card`;
+                    lessonCard.innerHTML = `
+                        <h4 class="text-2xl font-bold text-gray-900 mb-2 font-montserrat">${lesson.title}</h4>
+                        <p class="text-gray-700 text-sm mb-4 line-clamp-3 flex-grow">${lesson.description}</p>
+                        ${isCompleted ? '<span class="inline-block bg-green-200 text-green-800 text-xs font-semibold px-3 py-1 rounded-full mb-3 self-start shadow-sm">✓ Completed</span>' : ''}
+                        ${quizPassed ? '<span class="inline-block bg-blue-200 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mb-3 self-start shadow-sm ml-2">✓ Quiz Passed</span>' : ''}
+                        <button data-lesson-id="${lessonId}" 
+                                data-lesson-title="${lesson.title}"
+                                data-lesson-description="${lesson.description}"
+                                class="view-lesson-btn btn-primary mt-auto self-start text-sm py-2 px-4">
+                            View Lesson
+                        </button>
+                    `;
+                    lessonsList.appendChild(lessonCard);
+                });
+                console.log("User: [FIRESTORE] Lessons rendered.");
+
+                document.querySelectorAll('.view-lesson-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const lessonId = e.target.dataset.lessonId;
+                        const lessonTitle = e.target.dataset.lessonTitle;
+                        const lessonDescription = e.target.dataset.lessonDescription;
+                        openLessonModal(lessonId, lessonTitle, lessonDescription);
+                    });
+                });
+            }, (error) => {
+                console.error("User: [FIRESTORE ERROR] Error loading lessons:", error);
+                lessonsList.innerHTML = '<p class="text-center col-span-full text-red-500">Error loading lessons.</p>';
+                // showMessage(authMessageBox, `Error loading lessons: ${error.message}`, 'error'); // Use a more appropriate message box if available
+            });
+        }
+
+        // Open Lesson Detail Modal
+        async function openLessonModal(lessonId, lessonTitle, lessonDescription) {
+            currentLessonId = lessonId; 
+            currentLessonTitle = lessonTitle;
+            currentLessonDescription = lessonDescription;
+
+            modalLessonTitle.textContent = 'Loading...';
+            modalLessonDescription.textContent = '';
+            modalCodeSnippetContainer.classList.add('hidden');
+            modalCodeSnippet.textContent = '';
+            markCompleteButton.classList.add('hidden');
+            startQuizButton.classList.add('hidden'); 
+            viewCertificateButton.classList.add('hidden'); 
+
+            // Reset video display elements
+            modalVideoContainer.style.paddingBottom = '56.25%'; 
+            modalVideoLink.style.display = 'none';
+            modalVideoThumbnail.style.display = 'none';
+            videoNotAvailable.style.display = 'none';
+
+            showSection('lesson-detail-modal'); // Show lesson modal
+            console.log("User: Opening lesson modal for lesson ID:", lessonId);
+
+            try {
+                const lessonDocRef = doc(db, `artifacts/${appId}/public/data/lessons`, lessonId);
+                const lessonSnap = await getDoc(lessonDocRef);
+
+                if (lessonSnap.exists()) {
+                    const lessonData = lessonSnap.data();
+                    modalLessonTitle.textContent = lessonData.title;
+                    modalLessonDescription.textContent = lessonData.description;
+
+                    if (lessonData.videoUrl) {
+                        const videoIdMatch = lessonData.videoUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/||v\/)([\w-]{11})(?:\S+)?/);
+                        if (videoIdMatch && videoIdMatch[1]) {
+                            const videoId = videoIdMatch[1];
+                            const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+                            const youtubeEmbedUrl = `https://www.youtube.com/watch?v=${videoId}`; 
+
+                            modalVideoThumbnail.src = thumbnailUrl;
+                            modalVideoLink.href = youtubeEmbedUrl;
+                            modalVideoThumbnail.style.display = 'block';
+                            modalVideoLink.style.display = 'flex'; 
+                            modalVideoContainer.classList.remove('hidden');
+                        } else {
+                            videoNotAvailable.style.display = 'block';
+                            modalVideoContainer.classList.remove('hidden');
+                            console.warn("User: Invalid YouTube URL format:", lessonData.videoUrl);
+                        }
+                    } else {
+                        modalVideoContainer.classList.add('hidden');
+                    }
+
+                    let completedLessons = {};
+                    if (currentUserId) {
+                        const userDocRef = doc(db, `artifacts/${appId}/users/${currentUserId}`);
+                        const userDocSnap = await getDoc(userDocRef);
+                        completedLessons = userDocSnap.exists() && userDocSnap.data().completedLessons ? userDocSnap.data().completedLessons : {};
+                    }
+                    
+                    const isCompleted = completedLessons[lessonId] && completedLessons[lessonId].completed === true;
+                    const quizPassed = completedLessons[lessonId] && completedLessons[lessonId].quizPassed === true;
+
+                    if (quizPassed) {
+                        viewCertificateButton.classList.remove('hidden');
+                        startQuizButton.classList.add('hidden'); 
+                        markCompleteButton.classList.add('hidden'); 
+                    } else if (isCompleted) {
+                        startQuizButton.classList.remove('hidden');
+                        viewCertificateButton.classList.add('hidden');
+                        markCompleteButton.classList.add('hidden'); 
+                    } else {
+                        markCompleteButton.classList.remove('hidden');
+                        startQuizButton.classList.remove('hidden'); 
+                        viewCertificateButton.classList.add('hidden');
+                    }
+
+                    if (lessonData.codeSnippet) { // Only show quiz/certificate buttons if there's a code snippet (for game)
+                         startQuizButton.classList.remove('hidden');
+                    } else {
+                         startQuizButton.classList.add('hidden');
+                    }
+
+
+                    console.log("User: Lesson data loaded into modal.");
+                } else {
+                    modalLessonTitle.textContent = 'Lesson Not Found';
+                    modalLessonDescription.textContent = 'This lesson could not be loaded.';
+                    console.warn("User: Lesson document not found for ID:", lessonId);
+                }
+            } catch (error) {
+                console.error("User: Error opening lesson modal:", error);
+                modalLessonTitle.textContent = 'Error Loading Lesson';
+                modalLessonDescription.textContent = 'An error occurred while loading this lesson.';
+                // showMessage(authMessageBox, `Error opening lesson: ${error.message}`, 'error'); // Use a more appropriate message box if available
+            }
+        }
+
+        // Close Lesson Detail Modal
+        closeModalButton.addEventListener('click', () => {
+            lessonDetailModal.classList.add('hidden');
+            modalVideoThumbnail.src = '';
+            modalVideoLink.href = '#';
+            modalVideoThumbnail.style.display = 'none';
+            modalVideoLink.style.display = 'none';
+            videoNotAvailable.style.display = 'none';
+            console.log("User: Lesson modal closed.");
+        });
+
+        // Mark Lesson as Complete
+        markCompleteButton.addEventListener('click', async () => {
+            if (!currentUserId || !currentLessonId) {
+                console.error("User: User or lesson ID missing for marking complete.");
+                // showMessage(authMessageBox, 'Cannot mark complete: User not logged in or lesson not selected.', 'error'); // Use a more appropriate message box if available
+                return;
+            }
+
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${currentUserId}`);
+                await setDoc(userDocRef, {
+                    completedLessons: {
+                        [currentLessonId]: {
+                            completed: true,
+                            completedAt: serverTimestamp(),
+                            quizPassed: false 
+                        }
+                    }
+                }, { merge: true }); 
+
+                // showMessage(authMessageBox, 'Lesson marked as complete! Take the quiz to earn your certificate.', 'success'); // Use a more appropriate message box if available
+                markCompleteButton.textContent = 'Marked Complete!';
+                markCompleteButton.disabled = true;
+                markCompleteButton.classList.remove('btn-success');
+                markCompleteButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+                startQuizButton.classList.remove('hidden'); 
+                loadLessons(); 
+                console.log("User: Lesson marked complete in Firestore.");
+            } catch (error) {
+                console.error("User: Error marking lesson complete:", error);
+                // showMessage(authMessageBox, `Failed to mark complete: ${error.message}`, 'error'); // Use a more appropriate message box if available
+            }
+        });
+
+        // --- Quiz Functionality ---
+
+        // Event listener for Start Quiz button
+        startQuizButton.addEventListener('click', () => {
+            showSection('quiz-modal'); // Show quiz modal
+            quizLessonTitleSpan.textContent = currentLessonTitle;
+            quizQuestionsContainer.innerHTML = ''; 
+            quizMessageBox.classList.add('hidden'); 
+            quizLoadingMessage.classList.remove('hidden'); 
+            submitQuizButton.disabled = true; 
+
+            generateQuizQuestions(currentLessonTitle, currentLessonDescription);
+        });
+
+        // Close Quiz Modal
+        closeQuizModalButton.addEventListener('click', () => {
+            quizModal.classList.add('hidden');
+            quizQuestionsContainer.innerHTML = ''; 
+            quizMessageBox.classList.add('hidden');
+            currentQuizQuestions = []; 
+            console.log("User: Quiz modal closed.");
+        });
+
+        // Generate Quiz Questions using Gemini API
+        async function generateQuizQuestions(topic, content) {
+            console.log("User: Generating quiz for topic:", topic);
+            const prompt = `Generate 5 multiple-choice quiz questions about "${topic}". The questions should be based on the following content: "${content}". Each question should have 4 options (A, B, C, D) and specify the correct answer. Provide the output as a JSON array of objects, where each object has 'question', 'options' (an array of strings), and 'answer' (the correct option letter, e.g., 'A').`;
+
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+            const payload = {
+                contents: chatHistory,
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "ARRAY",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                "question": { "type": "STRING" },
+                                "options": {
+                                    "type": "ARRAY",
+                                    "items": { "type": "STRING" }
+                                },
+                                "answer": { "type": "STRING" }
+                            },
+                            "propertyOrdering": ["question", "options", "answer"]
+                        }
+                    }
+                }
+            };
+
+            // IMPORTANT: Replace "YOUR_GEMINI_API_KEY_HERE" with your actual Gemini API Key.
+            // This is required when running the site outside of the Canvas environment.
+            // You can get one from Google AI Studio: https://aistudio.google.com/
+            const apiKey = "AIzaSyB9sOERiW2n-BQprw-kPoMmA8wSqzIXPWw"; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API error: ${response.status} ${response.statusText} - ${JSON.stringify(errorData)}`);
+                }
+
+                const result = await response.json();
+                console.log("User: Gemini API response:", result);
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    
+                    const jsonString = result.candidates[0].content.parts[0].text;
+                    currentQuizQuestions = JSON.parse(jsonString);
+                    renderQuizQuestions(currentQuizQuestions);
+                    quizLoadingMessage.classList.add('hidden');
+                    submitQuizButton.disabled = false; 
+                } else {
+                    throw new Error("Invalid response structure from Gemini API.");
+                }
+            } catch (error) {
+                console.error("User: Error generating quiz:", error);
+                quizLoadingMessage.classList.add('hidden');
+                showMessage(quizMessageBox, `Failed to generate quiz: ${error.message}. Please try again later. Ensure your Gemini API key is correct and has access.`, 'error');
+                submitQuizButton.disabled = true; 
+            }
+        }
+
+        // Render Quiz Questions to the UI
+        function renderQuizQuestions(questions) {
+            quizQuestionsContainer.innerHTML = '';
+            if (questions.length === 0) {
+                quizQuestionsContainer.innerHTML = '<p class="text-center text-gray-500">No questions generated. Please try again.</p>';
+                return;
+            }
+
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'bg-gray-50 p-6 rounded-lg shadow-md';
+                questionDiv.innerHTML = `
+                    <p class="text-xl font-semibold mb-4">Q${index + 1}: ${q.question}</p>
+                    <div class="space-y-3">
+                        ${q.options.map((option, optIndex) => `
+                            <label class="flex items-center text-lg cursor-pointer">
+                                <input type="radio" name="question-${index}" value="${String.fromCharCode(65 + optIndex)}" class="form-radio h-5 w-5 text-indigo-600">
+                                <span class="ml-3 text-gray-800">${String.fromCharCode(65 + optIndex)}. ${option}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                quizQuestionsContainer.appendChild(questionDiv);
+            });
+        }
+
+        // Submit Quiz
+        submitQuizButton.addEventListener('click', async () => {
+            if (!currentQuizQuestions || currentQuizQuestions.length === 0) {
+                showMessage(quizMessageBox, 'No quiz questions to submit.', 'error');
+                return;
+            }
+
+            let correctAnswers = 0;
+            currentQuizQuestions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question-${index}"]:checked`);
+                if (selectedOption && selectedOption.value === q.answer) {
+                    correctAnswers++;
+                }
+            });
+
+            const score = (correctAnswers / currentQuizQuestions.length) * 100;
+            quizMessageBox.classList.remove('hidden');
+
+            if (score >= 70) {
+                showMessage(quizMessageBox, `Congratulations! You scored ${score.toFixed(0)}%. Quiz passed!`, 'success');
+                try {
+                    const userDocRef = doc(db, `artifacts/${appId}/users/${currentUserId}`);
+                    await setDoc(userDocRef, {
+                        completedLessons: {
+                            [currentLessonId]: {
+                                completed: true,
+                                completedAt: serverTimestamp(),
+                                quizPassed: true,
+                                quizScore: score.toFixed(0)
+                            }
+                        }
+                    }, { merge: true });
+                    console.log("User: Quiz passed status updated in Firestore.");
+                    submitQuizButton.classList.add('hidden'); 
+                    setTimeout(() => {
+                        showSection('certificate-modal'); // Show certificate
+                        showCertificate(currentLessonId, currentLessonTitle, currentUserName);
+                    }, 1500); 
+                    
+                } catch (error) {
+                    console.error("User: Error updating quiz pass status:", error);
+                    showMessage(quizMessageBox, `Error saving quiz result: ${error.message}`, 'error');
+                }
+            } else {
+                showMessage(quizMessageBox, `You scored ${score.toFixed(0)}%. You need 70% to pass. Please try again.`, 'error');
+            }
+        });
+
+        // --- Certificate Functionality ---
+
+        // Event listener for View Certificate button
+        viewCertificateButton.addEventListener('click', () => {
+            showSection('certificate-modal'); // Show certificate modal
+            showCertificate(currentLessonId, currentLessonTitle, currentUserName);
+        });
+
+        // Show Certificate Modal
+        function showCertificate(lessonId, lessonTitle, userName) {
+            certificateName.textContent = userName || "Learner Name";
+            certificateTitle.textContent = "CERTIFICATE OF COMPETENCE"; // Static title
+            certificateSubtitle.textContent = "This certificate is presented to"; // Static subtitle
+            certificateDescription.textContent = `For meeting up to the standard of the examination in the field of ${lessonTitle}, making him industry ready.`; // Dynamic description
+            certificateDate.textContent = `Date: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+            
+            // Set static signer names/titles (already in HTML, just ensuring they are visible if needed)
+            certificateSigner1Name.textContent = "EJOYMENE PETER";
+            certificateSigner1Title.textContent = "Supervisor";
+            certificateSigner2Name.textContent = "EJOYMENE DAVID";
+            certificateSigner2Title.textContent = "CEO";
+
+            console.log("User: Certificate modal displayed.");
+        }
+
+        // Close Certificate Modal
+        closeCertificateModalButton.addEventListener('click', () => {
+            certificateModal.classList.remove('fullscreen-certificate-modal'); // Exit fullscreen if active
+            certificateModal.classList.add('hidden');
+            console.log("User: Certificate modal closed.");
+        });
+
+        // Close Certificate and Return to Dashboard
+        closeCertificateAndReturnButton.addEventListener('click', () => {
+            certificateModal.classList.remove('fullscreen-certificate-modal'); // Exit fullscreen if active
+            certificateModal.classList.add('hidden');
+            showSection('dashboard-section'); // Return to dashboard
+            loadLessons(); // Refresh lessons list to show updated status
+            console.log("User: Certificate modal closed, returning to dashboard.");
+        });
+
+        // Toggle Fullscreen for Certificate
+        toggleFullscreenButton.addEventListener('click', () => {
+            certificateModal.classList.toggle('fullscreen-certificate-modal');
+            const isFullscreen = certificateModal.classList.contains('fullscreen-certificate-modal');
+            toggleFullscreenButton.innerHTML = isFullscreen ? '&#x26F5;' : '&#x26F6;'; // Change icon
+            toggleFullscreenButton.title = isFullscreen ? 'Exit Fullscreen' : 'Toggle Fullscreen';
+            console.log(`User: Certificate fullscreen toggled to ${isFullscreen}`);
+        });
+
+        // Download Certificate
+        downloadCertificateButton.addEventListener('click', () => {
+            const buttonsToHide = [downloadCertificateButton, closeCertificateModalButton, closeCertificateAndReturnButton, toggleFullscreenButton];
+            buttonsToHide.forEach(btn => btn.classList.add('hidden'));
+
+            // Temporarily remove fullscreen class if active, for better capture
+            const wasFullscreen = certificateModal.classList.contains('fullscreen-certificate-modal');
+            if (wasFullscreen) {
+                certificateModal.classList.remove('fullscreen-certificate-modal');
+            }
+
+            html2canvas(certificateContainer, {
+                scale: 2, 
+                useCORS: true, 
+                logging: false 
+            }).then(canvas => {
+                buttonsToHide.forEach(btn => btn.classList.remove('hidden'));
+                // Restore fullscreen class if it was active
+                if (wasFullscreen) {
+                    certificateModal.classList.add('fullscreen-certificate-modal');
+                }
+
+                const imgData = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = `${currentUserName}_${currentLessonTitle}_Certificate.png`;
+                link.href = imgData;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                console.log("User: Certificate downloaded.");
+            }).catch(error => {
+                console.error("User: Error generating certificate image:", error);
+                // showMessage(authMessageBox, `Failed to download certificate: ${error.message}`, 'error'); // Use a more appropriate message box if available
+                buttonsToHide.forEach(btn => btn.classList.remove('hidden'));
+                if (wasFullscreen) {
+                    certificateModal.classList.add('fullscreen-certificate-modal');
+                }
+            });
+        });
+
+        // --- Profile Section Functionality ---
+
+        navProfileBtn.addEventListener('click', () => {
+            showSection('profile-section');
+            loadProfileData();
+        });
+
+        backToDashboardFromProfileBtn.addEventListener('click', () => {
+            showSection('dashboard-section');
+        });
+
+        async function loadProfileData() {
+            if (!currentUserId) {
+                profileMessageBox.classList.remove('hidden');
+                profileMessageBox.textContent = 'User not logged in.';
+                profileMessageBox.classList.add('bg-red-100', 'text-red-700');
+                return;
+            }
+
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${currentUserId}`);
+                const docSnap = await getDoc(userDocRef);
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    profileFullNameInput.value = userData.fullName || '';
+                    profileEmailInput.value = auth.currentUser.email || 'N/A';
+                    profileMessageBox.classList.add('hidden');
+                } else {
+                    profileFullNameInput.value = '';
+                    profileEmailInput.value = auth.currentUser.email || 'N/A';
+                    profileMessageBox.classList.remove('hidden');
+                    profileMessageBox.textContent = 'User profile data not found. Please update your full name.';
+                    profileMessageBox.classList.add('bg-blue-100', 'text-blue-700');
+                }
+            } catch (error) {
+                console.error("User: Error loading user profile:", error);
+                profileMessageBox.classList.remove('hidden');
+                profileMessageBox.textContent = `Failed to load profile: ${error.message}`;
+                profileMessageBox.classList.add('bg-red-100', 'text-red-700');
+            }
+        }
+
+        profileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUserId) {
+                profileMessageBox.classList.remove('hidden');
+                profileMessageBox.textContent = 'User not logged in.';
+                profileMessageBox.classList.add('bg-red-100', 'text-red-700');
+                return;
+            }
+
+            profileMessageBox.classList.add('hidden');
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${currentUserId}`);
+                await setDoc(userDocRef, {
+                    fullName: profileFullNameInput.value.trim(),
+                }, { merge: true });
+                currentUserName = profileFullNameInput.value.trim(); // Update global user name
+                userNameSpan.textContent = currentUserName; // Update dashboard
+                showMessage(profileMessageBox, 'Profile updated successfully!', 'success');
+            } catch (error) {
+                console.error("User: Error updating user profile:", error);
+                showMessage(profileMessageBox, `Failed to update profile: ${error.message}`, 'error');
+            }
+        });
+
+        // --- Game Section Functionality ---
+
+        navGameBtn.addEventListener('click', () => {
+            showSection('game-section');
+            initGame();
+        });
+
+        backToDashboardFromGameBtn.addEventListener('click', () => {
+            showSection('dashboard-section');
+        });
+
+        async function initGame() {
+            gameSnippetDisplay.textContent = 'Loading code snippets...';
+            gameTypingArea.value = '';
+            gameAccuracySpan.textContent = 'Accuracy: 0%';
+            gameWpmSpan.textContent = 'WPM: 0';
+            gameMessageBox.classList.add('hidden');
+            gameTypingArea.disabled = true;
+            newSnippetBtn.disabled = true;
+            gameIsOver = false;
+
+            try {
+                const lessonsCollectionRef = collection(db, `artifacts/${appId}/public/data/lessons`);
+                const snapshot = await getDocs(lessonsCollectionRef); // Use getDocs for a one-time fetch
+
+                allCodeSnippets = snapshot.docs
+                    .map(doc => doc.data().codeSnippet)
+                    .filter(snippet => snippet && snippet.trim().length > 0);
+
+                if (allCodeSnippets.length > 0) {
+                    selectRandomSnippet();
+                    gameTypingArea.disabled = false;
+                    newSnippetBtn.disabled = false;
+                } else {
+                    gameSnippetDisplay.textContent = 'No code snippets available. Please upload lessons with code snippets in the admin app.';
+                    gameMessageBox.classList.remove('hidden');
+                    gameMessageBox.textContent = 'No code snippets found for the game.';
+                    gameMessageBox.classList.add('bg-blue-100', 'text-blue-700');
+                }
+            } catch (error) {
+                console.error("User: Error loading code snippets for game:", error);
+                gameSnippetDisplay.textContent = 'Error loading code snippets.';
+                gameMessageBox.classList.remove('hidden');
+                gameMessageBox.textContent = `Failed to load game content: ${error.message}`;
+                gameMessageBox.classList.add('bg-red-100', 'text-red-700');
+            }
+        }
+
+        function selectRandomSnippet() {
+            if (allCodeSnippets.length === 0) {
+                gameSnippetDisplay.textContent = 'No code snippets available.';
+                gameTypingArea.disabled = true;
+                newSnippetBtn.disabled = true;
+                return;
+            }
+            const randomIndex = Math.floor(Math.random() * allCodeSnippets.length);
+            currentCodeSnippet = allCodeSnippets[randomIndex];
+            gameSnippetDisplay.textContent = currentCodeSnippet;
+            gameTypingArea.value = '';
+            gameTypingArea.focus();
+            gameAccuracySpan.textContent = 'Accuracy: 0%';
+            gameWpmSpan.textContent = 'WPM: 0';
+            gameMessageBox.classList.add('hidden');
+            gameStartTime = null;
+            gameIsOver = false;
+        }
+
+        gameTypingArea.addEventListener('input', () => {
+            if (gameIsOver) return;
+
+            const typedText = gameTypingArea.value;
+            if (gameStartTime === null && typedText.length > 0) {
+                gameStartTime = new Date();
+            }
+
+            let correctChars = 0;
+            let incorrectChars = 0;
+            for (let i = 0; i < typedText.length; i++) {
+                if (i < currentCodeSnippet.length && typedText[i] === currentCodeSnippet[i]) {
+                    correctChars++;
+                } else {
+                    incorrectChars++;
+                }
+            }
+
+            const totalCharsTyped = typedText.length;
+            const accuracy = totalCharsTyped > 0 ? (correctChars / totalCharsTyped) * 100 : 0;
+            
+            let wpm = 0;
+            if (gameStartTime !== null) {
+                const elapsedTimeSeconds = (new Date() - gameStartTime) / 1000;
+                if (elapsedTimeSeconds > 0) {
+                    wpm = (correctChars / 5) / (elapsedTimeSeconds / 60);
+                }
+            }
+
+            gameAccuracySpan.textContent = `Accuracy: ${accuracy.toFixed(2)}%`;
+            gameWpmSpan.textContent = `WPM: ${wpm.toFixed(2)}`;
+
+            if (typedText.length === currentCodeSnippet.length) {
+                endGame(correctChars, totalCharsTyped, wpm);
+            }
+        });
+
+        function endGame(finalCorrectChars, finalTotalChars, finalWpm) {
+            gameIsOver = true;
+            gameTypingArea.disabled = true;
+            gameMessageBox.classList.remove('hidden');
+            const accuracy = (finalCorrectChars / finalTotalChars) * 100;
+            gameMessageBox.textContent = `Game Over! Accuracy: ${accuracy.toFixed(2)}%, WPM: ${finalWpm.toFixed(2)}`;
+            gameMessageBox.classList.add('bg-green-100', 'text-green-700'); // Always green for game over
+        }
+
+        newSnippetBtn.addEventListener('click', selectRandomSnippet);
+
+        // --- AI Customer Service Functionality ---
+
+        navAiChatBtn.addEventListener('click', () => {
+            showSection('ai-chat-section');
+            // Clear chat history and messages when entering AI chat
+            chatMessagesContainer.innerHTML = `
+                <div class="flex justify-start">
+                    <div class="bg-indigo-100 text-indigo-800 p-3 rounded-lg max-w-[80%] shadow">
+                        Welcome! How can I help you with your coding journey today?
+                    </div>
+                </div>
+            `;
+            chatHistory = [{ role: "model", parts: [{ text: "Welcome! How can I help you with your coding journey today?" }] }]; // Initialize AI's first message in history
+            chatInput.value = '';
+            aiTypingIndicator.classList.add('hidden');
+            chatMessageBox.classList.add('hidden');
+        });
+
+        backToDashboardFromAiChatBtn.addEventListener('click', () => {
+            showSection('dashboard-section');
+        });
+
+        // Helper function to add a message to the chat display
+        function addChatMessage(text, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
+            messageDiv.innerHTML = `
+                <div class="${isUser ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800'} p-3 rounded-lg max-w-[80%] shadow">
+                    ${text}
+                </div>
+            `;
+            chatMessagesContainer.appendChild(messageDiv);
+            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; // Scroll to bottom
+        }
+
+        sendChatBtn.addEventListener('click', sendMessageToAI);
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                sendMessageToAI();
+            }
+        });
+
+        async function sendMessageToAI() {
+            const userMessage = chatInput.value.trim();
+            chatInput.value = ''; // Clear input immediately
+
+            if (userMessage.length === 0) return;
+
+            addChatMessage(userMessage, true); // Display user's message
+            chatHistory.push({ role: "user", parts: [{ text: userMessage }] }); // Add to history for API
+
+            aiTypingIndicator.classList.remove('hidden'); // Show typing indicator
+            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; // Scroll to show indicator
+
+            const payload = {
+                contents: chatHistory, // Send the full chat history
+            };
+
+            // IMPORTANT: Replace "YOUR_GEMINI_API_KEY_HERE" with your actual Gemini API Key.
+            // You can get one from Google AI Studio: https://aistudio.google.com/
+            const apiKey = "AIzaSyB9sOERiW2n-BQprw-kPoMmA8wSqzIXPWw"; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API error: ${response.status} ${response.statusText} - ${JSON.stringify(errorData)}`);
+                }
+
+                const result = await response.json();
+                console.log("User: Gemini AI response:", result);
+
+                let aiResponseText = 'No response.';
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    aiResponseText = result.candidates[0].content.parts[0].text;
+                } else {
+                    console.warn("User: Gemini API returned unexpected structure or no text.");
+                }
+
+                addChatMessage(aiResponseText, false); // Display AI's response
+                chatHistory.push({ role: "model", parts: [{ text: aiResponseText }] }); // Add AI's response to history
+                
+            } catch (error) {
+                console.error("User: Error sending message to AI:", error);
+                addChatMessage(`Error: Could not get a response. ${error.message}`, false); // Display error message
+            } finally {
+                aiTypingIndicator.classList.add('hidden'); // Hide typing indicator
+                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; // Ensure scroll to bottom
+            }
+        }
+        
+        // Initial Firebase Authentication check for user website
+        console.log("User Site: Script loaded. Waiting for onAuthStateChanged...");
+        // The onAuthStateChanged listener will handle initial display logic.
+    </script>
+</body>
+</html>
